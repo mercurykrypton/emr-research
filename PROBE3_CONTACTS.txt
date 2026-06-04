@@ -1,15 +1,12 @@
 ' PROBE3_CONTACTS - Probe patient chart/contact/encounter access
-'
-' Tests access to clinical encounter notes (Cdo-Trans, Cdo-TransData, Cdo-Ehcr)
 ' Results: P:\Merkur\EMR_Research\probe3-results.txt
-'
-' Use a patient PHN who has known clinical encounter notes in their chart.
+' Use a patient PHN who has clinical encounter notes in their chart.
 
 dim outFile
 outFile = "P:\Merkur\EMR_Research\probe3-results.txt"
 
 dim phn
-phn = InputBox("Enter PHN of patient with clinical notes in chart:", "Probe 3 Contacts")
+phn = InputBox("Enter PHN of patient with clinical notes in chart:", "Probe 3")
 if phn = "" then
     MsgBox "Cancelled.", 0, "Probe 3"
 else
@@ -22,10 +19,12 @@ else
 
 dim rpt
 rpt = "PROBE3_CONTACTS - " & Now() & vbCrLf
-rpt = rpt & "PHN: " & phn & " | Patient: " & p.SurName & ", " & p.FirstName & " | ID: " & p.ID & vbCrLf
+rpt = rpt & "PHN: " & phn & " | " & p.SurName & ", " & p.FirstName & " | ID: " & p.ID & vbCrLf
 rpt = rpt & String(70, "=") & vbCrLf & vbCrLf
 
-dim v, col, cnt, item
+dim v, col, item
+dim ptntId
+ptntId = p.ID
 
 ' ============================================================
 ' SECTION 1: Patient object contact collections
@@ -34,129 +33,220 @@ rpt = rpt & "[1] PATIENT OBJECT CONTACT COLLECTIONS" & vbCrLf
 rpt = rpt & String(50, "-") & vbCrLf
 
 on error resume next
-set col = nothing : set col = p.Contacts
-if err.number <> 0 then rpt = rpt & "  .Contacts       = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .Contacts       = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.Contacts
+if err.number <> 0 then
+    rpt = rpt & "  .Contacts      = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .Contacts      = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.ContactList
-if err.number <> 0 then rpt = rpt & "  .ContactList    = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .ContactList    = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.ContactList
+if err.number <> 0 then
+    rpt = rpt & "  .ContactList   = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .ContactList   = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.Encounters
-if err.number <> 0 then rpt = rpt & "  .Encounters     = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .Encounters     = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.Encounters
+if err.number <> 0 then
+    rpt = rpt & "  .Encounters    = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .Encounters    = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.EncounterList
-if err.number <> 0 then rpt = rpt & "  .EncounterList  = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .EncounterList  = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.EncounterList
+if err.number <> 0 then
+    rpt = rpt & "  .EncounterList = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .EncounterList = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.Notes
-if err.number <> 0 then rpt = rpt & "  .Notes          = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .Notes          = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.Notes
+if err.number <> 0 then
+    rpt = rpt & "  .Notes         = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .Notes         = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.NoteList
-if err.number <> 0 then rpt = rpt & "  .NoteList       = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .NoteList       = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.ClinicalNotes
+if err.number <> 0 then
+    rpt = rpt & "  .ClinicalNotes = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .ClinicalNotes = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.ClinicalNotes
-if err.number <> 0 then rpt = rpt & "  .ClinicalNotes  = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .ClinicalNotes  = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.Visits
+if err.number <> 0 then
+    rpt = rpt & "  .Visits        = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .Visits        = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.Visits
-if err.number <> 0 then rpt = rpt & "  .Visits         = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .Visits         = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.EHCR
+if err.number <> 0 then
+    rpt = rpt & "  .EHCR          = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .EHCR          = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.EHCR
-if err.number <> 0 then rpt = rpt & "  .EHCR           = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .EHCR           = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.Letters
+if err.number <> 0 then
+    rpt = rpt & "  .Letters       = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .Letters       = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = p.EHCRList
-if err.number <> 0 then rpt = rpt & "  .EHCRList       = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .EHCRList       = OK Count=" & col.Count & vbCrLf
-on error goto 0
-
-on error resume next
-set col = nothing : set col = p.Letters
-if err.number <> 0 then rpt = rpt & "  .Letters        = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .Letters        = OK Count=" & col.Count & vbCrLf
-on error goto 0
-
-on error resume next
-set col = nothing : set col = p.Documents
-if err.number <> 0 then rpt = rpt & "  .Documents      = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  .Documents      = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = p.Documents
+if err.number <> 0 then
+    rpt = rpt & "  .Documents     = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  .Documents     = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 rpt = rpt & vbCrLf
 
 ' ============================================================
-' SECTION 2: Global load functions for contacts
+' SECTION 2: Global load functions
 ' ============================================================
-rpt = rpt & "[2] GLOBAL LOAD FUNCTIONS FOR CONTACTS" & vbCrLf
+rpt = rpt & "[2] GLOBAL LOAD FUNCTIONS" & vbCrLf
 rpt = rpt & String(50, "-") & vbCrLf
 
-dim ptntId
-ptntId = p.ID
-
 on error resume next
-set col = nothing : set col = LoadContacts(ptntId)
-if err.number <> 0 then rpt = rpt & "  LoadContacts(int)         = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadContacts(int)         = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadContacts(ptntId)
+if err.number <> 0 then
+    rpt = rpt & "  LoadContacts(int)         = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadContacts(int)         = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadContacts(p)
-if err.number <> 0 then rpt = rpt & "  LoadContacts(obj)         = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadContacts(obj)         = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadContacts(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadContacts(obj)         = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadContacts(obj)         = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadEncounters(ptntId)
-if err.number <> 0 then rpt = rpt & "  LoadEncounters(int)       = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadEncounters(int)       = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadEncounters(ptntId)
+if err.number <> 0 then
+    rpt = rpt & "  LoadEncounters(int)       = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadEncounters(int)       = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadEncounters(p)
-if err.number <> 0 then rpt = rpt & "  LoadEncounters(obj)       = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadEncounters(obj)       = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadEncounters(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadEncounters(obj)       = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadEncounters(obj)       = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadPatientContacts(ptntId)
-if err.number <> 0 then rpt = rpt & "  LoadPatientContacts(int)  = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadPatientContacts(int)  = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadPatientContacts(ptntId)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientContacts(int)  = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadPatientContacts(int)  = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadPatientContacts(p)
-if err.number <> 0 then rpt = rpt & "  LoadPatientContacts(obj)  = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadPatientContacts(obj)  = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadPatientContacts(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientContacts(obj)  = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadPatientContacts(obj)  = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadVisits(ptntId)
-if err.number <> 0 then rpt = rpt & "  LoadVisits(int)           = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadVisits(int)           = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadEHCR(ptntId)
+if err.number <> 0 then
+    rpt = rpt & "  LoadEHCR(int)             = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadEHCR(int)             = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadEHCR(ptntId)
-if err.number <> 0 then rpt = rpt & "  LoadEHCR(int)             = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadEHCR(int)             = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadPatientDocuments(ptntId)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientDocuments(int) = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadPatientDocuments(int) = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 on error resume next
-set col = nothing : set col = LoadEHCR(p)
-if err.number <> 0 then rpt = rpt & "  LoadEHCR(obj)             = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadEHCR(obj)             = OK Count=" & col.Count & vbCrLf
-on error goto 0
-
-on error resume next
-set col = nothing : set col = LoadPatientDocuments(ptntId)
-if err.number <> 0 then rpt = rpt & "  LoadPatientDocuments(int) = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadPatientDocuments(int) = OK Count=" & col.Count & vbCrLf
-on error goto 0
-
-on error resume next
-set col = nothing : set col = LoadPatientDocuments(p)
-if err.number <> 0 then rpt = rpt & "  LoadPatientDocuments(obj) = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadPatientDocuments(obj) = OK Count=" & col.Count & vbCrLf
+set col = nothing
+set col = LoadPatientDocuments(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientDocuments(obj) = ERR: " & err.description & vbCrLf
+    err.clear
+else
+    rpt = rpt & "  LoadPatientDocuments(obj) = OK Count=" & col.Count & vbCrLf
+end if
 on error goto 0
 
 rpt = rpt & vbCrLf
@@ -172,38 +262,43 @@ dim cf
 set cf = nothing
 set cf = CreateContactFilter()
 if err.number <> 0 then
-    rpt = rpt & "  CreateContactFilter()     = ERR: " & err.description & vbCrLf : err.clear
+    rpt = rpt & "  CreateContactFilter()     = ERR: " & err.description & vbCrLf
+    err.clear
 else
     rpt = rpt & "  CreateContactFilter()     = OK" & vbCrLf
-    v = cf.PatientId  : if err.number = 0 then rpt = rpt & "    .PatientId   = readable" & vbCrLf else rpt = rpt & "    .PatientId   = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.DateFrom   : if err.number = 0 then rpt = rpt & "    .DateFrom    = readable" & vbCrLf else rpt = rpt & "    .DateFrom    = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.DateTo     : if err.number = 0 then rpt = rpt & "    .DateTo      = readable" & vbCrLf else rpt = rpt & "    .DateTo      = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.ProviderID : if err.number = 0 then rpt = rpt & "    .ProviderID  = readable" & vbCrLf else rpt = rpt & "    .ProviderID  = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.Type       : if err.number = 0 then rpt = rpt & "    .Type        = readable" & vbCrLf else rpt = rpt & "    .Type        = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.Status     : if err.number = 0 then rpt = rpt & "    .Status      = readable" & vbCrLf else rpt = rpt & "    .Status      = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.Keyword    : if err.number = 0 then rpt = rpt & "    .Keyword     = readable" & vbCrLf else rpt = rpt & "    .Keyword     = ERR: " & err.description & vbCrLf : err.clear
-    v = cf.SearchText : if err.number = 0 then rpt = rpt & "    .SearchText  = readable" & vbCrLf else rpt = rpt & "    .SearchText  = ERR: " & err.description & vbCrLf : err.clear
 
-    set col = nothing : set col = LoadContacts(cf)
-    if err.number <> 0 then rpt = rpt & "  LoadContacts(cf)          = ERR: " & err.description & vbCrLf : err.clear else rpt = rpt & "  LoadContacts(cf)          = OK Count=" & col.Count & vbCrLf
-end if
-on error goto 0
+    v = cf.PatientId
+    if err.number = 0 then rpt = rpt & "    .PatientId  = readable" & vbCrLf else rpt = rpt & "    .PatientId  = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.DateFrom
+    if err.number = 0 then rpt = rpt & "    .DateFrom   = readable" & vbCrLf else rpt = rpt & "    .DateFrom   = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.DateTo
+    if err.number = 0 then rpt = rpt & "    .DateTo     = readable" & vbCrLf else rpt = rpt & "    .DateTo     = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.Type
+    if err.number = 0 then rpt = rpt & "    .Type       = readable" & vbCrLf else rpt = rpt & "    .Type       = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.Status
+    if err.number = 0 then rpt = rpt & "    .Status     = readable" & vbCrLf else rpt = rpt & "    .Status     = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.Keyword
+    if err.number = 0 then rpt = rpt & "    .Keyword    = readable" & vbCrLf else rpt = rpt & "    .Keyword    = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.SearchText
+    if err.number = 0 then rpt = rpt & "    .SearchText = readable" & vbCrLf else rpt = rpt & "    .SearchText = ERR: " & err.description & vbCrLf : err.clear
+    v = cf.ProviderID
+    if err.number = 0 then rpt = rpt & "    .ProviderID = readable" & vbCrLf else rpt = rpt & "    .ProviderID = ERR: " & err.description & vbCrLf : err.clear
 
-on error resume next
-dim ef
-set ef = nothing
-set ef = CreateEncounterFilter()
-if err.number <> 0 then
-    rpt = rpt & "  CreateEncounterFilter()   = ERR: " & err.description & vbCrLf : err.clear
-else
-    rpt = rpt & "  CreateEncounterFilter()   = OK" & vbCrLf
+    set col = nothing
+    set col = LoadContacts(cf)
+    if err.number <> 0 then
+        rpt = rpt & "  LoadContacts(cf)          = ERR: " & err.description & vbCrLf
+        err.clear
+    else
+        rpt = rpt & "  LoadContacts(cf)          = OK Count=" & col.Count & vbCrLf
+    end if
 end if
 on error goto 0
 
 rpt = rpt & vbCrLf
 
 ' ============================================================
-' SECTION 4: ContactList item properties (if accessible)
+' SECTION 4: ContactList item properties
 ' ============================================================
 rpt = rpt & "[4] CONTACTLIST ITEM PROPERTIES" & vbCrLf
 rpt = rpt & String(50, "-") & vbCrLf
@@ -212,30 +307,31 @@ on error resume next
 set col = nothing
 set col = p.ContactList
 if err.number <> 0 then
-    rpt = rpt & "  p.ContactList ERR: " & err.description & vbCrLf : err.clear
+    rpt = rpt & "  p.ContactList ERR: " & err.description & vbCrLf
+    err.clear
 else
-    rpt = rpt & "  p.ContactList Count=" & col.Count & vbCrLf
+    rpt = rpt & "  Count = " & col.Count & vbCrLf
     if col.Count > 0 then
         set item = col(0)
         rpt = rpt & "  --- Item 0 ---" & vbCrLf
-        v = item.ID           : if err.number = 0 then rpt = rpt & "    .ID           = " & v & vbCrLf else rpt = rpt & "    .ID           = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Date         : if err.number = 0 then rpt = rpt & "    .Date         = " & v & vbCrLf else rpt = rpt & "    .Date         = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Type         : if err.number = 0 then rpt = rpt & "    .Type         = " & v & vbCrLf else rpt = rpt & "    .Type         = ERR: " & err.description & vbCrLf : err.clear
-        v = item.TypeIndex    : if err.number = 0 then rpt = rpt & "    .TypeIndex    = " & v & vbCrLf else rpt = rpt & "    .TypeIndex    = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Title        : if err.number = 0 then rpt = rpt & "    .Title        = " & v & vbCrLf else rpt = rpt & "    .Title        = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Subject      : if err.number = 0 then rpt = rpt & "    .Subject      = " & v & vbCrLf else rpt = rpt & "    .Subject      = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Text         : if err.number = 0 then rpt = rpt & "    .Text         = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Text         = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Notes        : if err.number = 0 then rpt = rpt & "    .Notes        = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Notes        = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Content      : if err.number = 0 then rpt = rpt & "    .Content      = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Content      = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Body         : if err.number = 0 then rpt = rpt & "    .Body         = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Body         = ERR: " & err.description & vbCrLf : err.clear
-        v = item.SOAP         : if err.number = 0 then rpt = rpt & "    .SOAP         = " & Left(v,200) & vbCrLf else rpt = rpt & "    .SOAP         = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Reason       : if err.number = 0 then rpt = rpt & "    .Reason       = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Reason       = ERR: " & err.description & vbCrLf : err.clear
-        v = item.ReasonText   : if err.number = 0 then rpt = rpt & "    .ReasonText   = " & Left(v,200) & vbCrLf else rpt = rpt & "    .ReasonText   = ERR: " & err.description & vbCrLf : err.clear
-        v = item.ProviderID   : if err.number = 0 then rpt = rpt & "    .ProviderID   = " & v & vbCrLf else rpt = rpt & "    .ProviderID   = ERR: " & err.description & vbCrLf : err.clear
-        v = item.ProviderName : if err.number = 0 then rpt = rpt & "    .ProviderName = " & v & vbCrLf else rpt = rpt & "    .ProviderName = ERR: " & err.description & vbCrLf : err.clear
-        v = item.Status       : if err.number = 0 then rpt = rpt & "    .Status       = " & v & vbCrLf else rpt = rpt & "    .Status       = ERR: " & err.description & vbCrLf : err.clear
-        v = item.DxCode       : if err.number = 0 then rpt = rpt & "    .DxCode       = " & v & vbCrLf else rpt = rpt & "    .DxCode       = ERR: " & err.description & vbCrLf : err.clear
-        v = item.DxDescription: if err.number = 0 then rpt = rpt & "    .DxDescription= " & v & vbCrLf else rpt = rpt & "    .DxDescription= ERR: " & err.description & vbCrLf : err.clear
+        v = item.ID            : if err.number = 0 then rpt = rpt & "    .ID            = " & v & vbCrLf else rpt = rpt & "    .ID            = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Date          : if err.number = 0 then rpt = rpt & "    .Date          = " & v & vbCrLf else rpt = rpt & "    .Date          = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Type          : if err.number = 0 then rpt = rpt & "    .Type          = " & v & vbCrLf else rpt = rpt & "    .Type          = ERR: " & err.description & vbCrLf : err.clear
+        v = item.TypeIndex     : if err.number = 0 then rpt = rpt & "    .TypeIndex     = " & v & vbCrLf else rpt = rpt & "    .TypeIndex     = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Title         : if err.number = 0 then rpt = rpt & "    .Title         = " & v & vbCrLf else rpt = rpt & "    .Title         = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Subject       : if err.number = 0 then rpt = rpt & "    .Subject       = " & v & vbCrLf else rpt = rpt & "    .Subject       = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Text          : if err.number = 0 then rpt = rpt & "    .Text          = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Text          = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Notes         : if err.number = 0 then rpt = rpt & "    .Notes         = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Notes         = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Content       : if err.number = 0 then rpt = rpt & "    .Content       = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Content       = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Body          : if err.number = 0 then rpt = rpt & "    .Body          = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Body          = ERR: " & err.description & vbCrLf : err.clear
+        v = item.SOAP          : if err.number = 0 then rpt = rpt & "    .SOAP          = " & Left(v,200) & vbCrLf else rpt = rpt & "    .SOAP          = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Reason        : if err.number = 0 then rpt = rpt & "    .Reason        = " & Left(v,200) & vbCrLf else rpt = rpt & "    .Reason        = ERR: " & err.description & vbCrLf : err.clear
+        v = item.ReasonText    : if err.number = 0 then rpt = rpt & "    .ReasonText    = " & Left(v,200) & vbCrLf else rpt = rpt & "    .ReasonText    = ERR: " & err.description & vbCrLf : err.clear
+        v = item.Status        : if err.number = 0 then rpt = rpt & "    .Status        = " & v & vbCrLf else rpt = rpt & "    .Status        = ERR: " & err.description & vbCrLf : err.clear
+        v = item.ProviderID    : if err.number = 0 then rpt = rpt & "    .ProviderID    = " & v & vbCrLf else rpt = rpt & "    .ProviderID    = ERR: " & err.description & vbCrLf : err.clear
+        v = item.ProviderName  : if err.number = 0 then rpt = rpt & "    .ProviderName  = " & v & vbCrLf else rpt = rpt & "    .ProviderName  = ERR: " & err.description & vbCrLf : err.clear
+        v = item.DxCode        : if err.number = 0 then rpt = rpt & "    .DxCode        = " & v & vbCrLf else rpt = rpt & "    .DxCode        = ERR: " & err.description & vbCrLf : err.clear
+        v = item.DxDescription : if err.number = 0 then rpt = rpt & "    .DxDescription = " & v & vbCrLf else rpt = rpt & "    .DxDescription = ERR: " & err.description & vbCrLf : err.clear
     end if
 end if
 on error goto 0
