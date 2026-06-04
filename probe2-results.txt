@@ -1,0 +1,433 @@
+PROBE2_DEEP - 2026-06-04 2:57:40 PM
+PHN: 9063878294
+======================================================================
+
+[1] PATIENT PROPERTIES
+--------------------------------------------------
+  .ID              = 928214
+  .SurName         = MARTEL
+  .FirstName       = Andrea
+  .DOB             = 1939-05-24
+  .NationalIdentifier = 9063878294
+  .Sex             = F
+  .Address1        = ERR: Object doesn't support this property or method
+  .Address2        = ERR: Object doesn't support this property or method
+  .City            = ERR: Object doesn't support this property or method
+  .PostCode        = ERR: Object doesn't support this property or method
+  .HomePhone       = 604 538 2114
+  .MobilePhone     = ERR: Object doesn't support this property or method
+  .Status          = 4
+  .StatusIndex     = 3
+  .PatientType     = 1
+  .DateFirstSeen   = 2025-06-05
+  .EnrolledDate    = 2025-06-03 12:00:00 PM
+  .ProviderID      = ERR: Object doesn't support this property or method
+  .ProviderName    = ERR: Object doesn't support this property or method
+  .UsualProvider   = ERR: Object doesn't support this property or method
+
+[2] PROBLEMLIST ITEM PROPERTIES
+--------------------------------------------------
+  Count = 18
+
+  --- Item 0 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Jun 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-06-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 616201
+
+  --- Item 1 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Jul 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-07-03
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 621123
+
+  --- Item 2 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Jul 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-07-31
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 625868
+
+  --- Item 3 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Sep 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-09-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 631327
+
+  --- Item 4 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Oct 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-10-09
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 637457
+
+  --- Item 5 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Nov 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-11-10
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 642097
+
+  --- Item 6 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD - AVASTIN Dec 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-12-11
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 647606
+
+  --- Item 7 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OS - AVASTIN Dec 2025
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-12-18
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 648709
+
+  --- Item 8 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OU - AVASTIN Jan 2026
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2026-01-08
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 651088
+
+  --- Item 9 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OU - AVASTIN Feb 2026
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2026-02-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 655516
+
+  --- Item 10 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OU - AVASTIN Mar 2026
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2026-03-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 659588
+
+  --- Item 11 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OU - AVASTIN Apr 2026
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2026-04-23
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 666803
+
+  --- Item 12 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OU - AVASTIN Jun 2026
+    .DxCode          = AVASTIN
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2026-06-04
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 673473
+
+  --- Item 13 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = EXTENDED - PACIFIC BLUE CROSS
+    .DxCode          = EXTENDED
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 12:00:00 AM
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 616168
+
+  --- Item 14 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = WCRC Inj Consent - 05 Jun 2025
+    .DxCode          = WCRCINJCON
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-06-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 616202
+
+  --- Item 15 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OD AMD PHSA - 05 Jun 2025
+    .DxCode          = PHSAODA
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-06-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 616203
+
+  --- Item 16 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = Last FA - 14 Nov 2025
+    .DxCode          = LASTFA
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-11-14
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 642772
+
+  --- Item 17 ---
+    .Description     = ERR: Object doesn't support this property or method
+    .DxDescription   = OS AMD PHSA - 05 Jun 2025
+    .DxCode          = PHSAOSA
+    .Code            = ERR: Object doesn't support this property or method
+    .IcdCode         = ERR: Object doesn't support this property or method
+    .IcdDescription  = ERR: Object doesn't support this property or method
+    .OutputCode      = ERR: Object doesn't support this property or method
+    .Date            = 2025-06-05
+    .DateAdded       = ERR: Object doesn't support this property or method
+    .ToDate          = ERR: Object doesn't support this property or method
+    .Status          = 1
+    .StatusId        = ERR: Object doesn't support this property or method
+    .StatusIndex     = ERR: Object doesn't support this property or method
+    .TypeId          = ERR: Object doesn't support this property or method
+    .ConfidenceId    = ERR: Object doesn't support this property or method
+    .Alert           = False
+    .Comment         = 
+    .ID              = 649379
+
+[3] LOAD FUNCTIONS WITH PATIENT OBJECT
+--------------------------------------------------
+  LoadPatientProblems(p)      = ERR: Type mismatch
+  LoadPatientDiagnoses(p)     = ERR: Type mismatch
+  LoadPatientTransactions(p)  = ERR: Type mismatch
+  LoadPatientContacts(p)      = ERR: Type mismatch
+
+[4] CREATEPATIENTFILTER PROPERTIES + LOADPATIENTS
+--------------------------------------------------
+  CreatePatientFilter()  OK
+
+    .AgeFrom       = ERR: Object doesn't support this property or method
+    .AgeTo         = ERR: Object doesn't support this property or method
+    .Gender        = readable
+    .Sex           = ERR: Object doesn't support this property or method
+    .DxCode        = ERR: Object doesn't support this property or method
+    .DxDescription = ERR: Object doesn't support this property or method
+    .DiagnosisCode = ERR: Object doesn't support this property or method
+    .DOBFrom       = readable
+    .DOBTo         = readable
+    .BirthDateFrom = ERR: Object doesn't support this property or method
+    .BirthDateTo   = ERR: Object doesn't support this property or method
+    .Status        = readable
+    .StatusIndex   = ERR: Object doesn't support this property or method
+    .PatientType   = ERR: Object doesn't support this property or method
+    .SurName       = ERR: Object doesn't support this property or method
+    .FirstName     = readable
+    .NHI           = ERR: Object doesn't support this property or method
+    .ProviderID    = ERR: Object doesn't support this property or method
+
+  LoadPatients(filt)     = ERR: Type mismatch
+  LoadPatients(dob filt) = ERR: Type mismatch
+
+[5] SQL FUNCTION VARIANTS
+--------------------------------------------------
+  ExecuteSql(stream)          = ERR: Type mismatch
+  RunSQL(stream)              = ERR: Type mismatch
+  RunSqlStatement(1)          = ERR: Type mismatch
+  LoadSqlStatement(1)         = ERR: Type mismatch
+
+======================================================================
+END OF PROBE 2 - 2026-06-04 2:57:40 PM

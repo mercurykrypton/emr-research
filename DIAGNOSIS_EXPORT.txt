@@ -1,0 +1,216 @@
+' DIAGNOSIS_EXPORT - Export all patients with their diagnosis/problem list to CSV
+'
+' Output: P:\Merkur\EMR_Research\data\diagnosis-export.csv
+' Progress: P:\Merkur\EMR_Research\data\diagnosis-export-progress.txt
+'
+' Runs in chunks of 50,000 IDs (~25 min/run). Re-run until complete.
+' Delete progress file to start fresh.
+'
+' CSV columns:
+'   PatientID, SurName, FirstName, DOB, PHN, Sex, HomePhone,
+'   Status, DxCode, DxDescription, DxDate, DxStatus, DxAlert, DxComment, DxID
+'
+' Patients with no problem list entries get one row with blank Dx* fields.
+'
+' === CONFIGURE ===
+dim maxId
+maxId = 2000000
+dim chunkSize
+chunkSize = 50000
+' =================
+
+dim dataDir
+dataDir = "P:\Merkur\EMR_Research\data"
+WinExec "cmd /c mkdir """ & dataDir & """ 2>nul", 0
+Sleep 300
+
+dim csvFile, progressFile
+csvFile      = dataDir & "\diagnosis-export.csv"
+progressFile = dataDir & "\diagnosis-export-progress.txt"
+
+' --- Read progress ---
+dim startId
+startId = 1
+dim progStream
+set progStream = MakeStream()
+on error resume next
+progStream.LoadFromFile(progressFile)
+if err.number = 0 then
+    dim progText
+    progText = Trim(progStream.AsString)
+    if progText <> "" then startId = CLng(progText) + 1
+end if
+err.clear
+on error goto 0
+
+dim endId
+endId = startId + chunkSize - 1
+
+if startId > maxId then
+    MsgBox "Export complete. All IDs scanned." & vbCrLf & vbCrLf & csvFile, 0, "Diagnosis Export"
+else
+
+' --- Write header if new file ---
+dim csvExists
+csvExists = false
+dim testStream
+set testStream = MakeStream()
+on error resume next
+testStream.LoadFromFile(csvFile)
+if err.number = 0 then csvExists = true
+err.clear
+on error goto 0
+
+dim csvData
+csvData = ""
+if not csvExists then
+    csvData = "PatientID,SurName,FirstName,DOB,PHN,Sex,HomePhone,PatientStatus," & _
+              "DxCode,DxDescription,DxDate,DxStatus,DxAlert,DxComment,DxID" & vbCrLf
+end if
+
+' --- Iterate chunk ---
+dim found, noProbs, emptyIds
+found    = 0   ' patients with problem list entries
+noProbs  = 0   ' patients with no problem list entries
+emptyIds = 0   ' IDs with no patient record
+
+on error resume next
+dim si, p
+for si = startId to endId
+    set p = LoadPatient(si)
+    if err.number <> 0 then err.clear
+    if not (p is nothing) then
+
+        dim pName, pFirst, pNHI, pDOB, pSex, pPhone, pStatus
+        pName   = "" : pName   = p.SurName          : if err.number <> 0 then pName   = "" : err.clear
+        pFirst  = "" : pFirst  = p.FirstName         : if err.number <> 0 then pFirst  = "" : err.clear
+        pNHI    = "" : pNHI    = p.NationalIdentifier: if err.number <> 0 then pNHI    = "" : err.clear
+        pDOB    = "" : pDOB    = p.DOB               : if err.number <> 0 then pDOB    = "" : err.clear
+        pSex    = "" : pSex    = p.Sex               : if err.number <> 0 then pSex    = "" : err.clear
+        pPhone  = "" : pPhone  = p.HomePhone         : if err.number <> 0 then pPhone  = "" : err.clear
+        pStatus = "" : pStatus = p.Status            : if err.number <> 0 then pStatus = "" : err.clear
+
+        if pName = "" then
+            emptyIds = emptyIds + 1
+        else
+            ' Clean DOB
+            dim dobStr
+            dobStr = "" & pDOB
+            dim sp : sp = InStr(dobStr, " ")
+            if sp > 0 then dobStr = Left(dobStr, sp - 1)
+            if dobStr = "12:00:00" then dobStr = ""
+
+            ' Escape CSV fields
+            pName  = Replace(Replace(pName,  """", """"""), ",", " ")
+            pFirst = Replace(Replace(pFirst, """", """"""), ",", " ")
+            pPhone = Replace(pPhone, ",", " ")
+
+            ' Patient base fields
+            dim baseRow
+            baseRow = si & "," & pName & "," & pFirst & "," & dobStr & "," & pNHI & "," & pSex & "," & pPhone & "," & pStatus
+
+            ' Get problem list
+            dim probs
+            set probs = nothing
+            set probs = p.ProblemList
+            if err.number <> 0 then
+                err.clear
+                ' Could not load problem list - write patient row with blank Dx fields
+                csvData = csvData & baseRow & ",,,,,,," & vbCrLf
+                noProbs = noProbs + 1
+            elseif probs.Count = 0 then
+                ' No problems - write patient row with blank Dx fields
+                csvData = csvData & baseRow & ",,,,,,," & vbCrLf
+                noProbs = noProbs + 1
+            else
+                ' Write one row per diagnosis
+                dim j
+                for j = 0 to probs.Count - 1
+                    dim prob
+                    set prob = probs(j)
+                    if err.number <> 0 then err.clear
+
+                    dim dxCode, dxDesc, dxDate, dxStatus, dxAlert, dxComment, dxID
+                    dxCode    = "" : dxCode    = prob.DxCode        : if err.number <> 0 then dxCode    = "" : err.clear
+                    dxDesc    = "" : dxDesc    = prob.DxDescription : if err.number <> 0 then dxDesc    = "" : err.clear
+                    dxDate    = "" : dxDate    = prob.Date          : if err.number <> 0 then dxDate    = "" : err.clear
+                    dxStatus  = "" : dxStatus  = prob.Status        : if err.number <> 0 then dxStatus  = "" : err.clear
+                    dxAlert   = "" : dxAlert   = prob.Alert         : if err.number <> 0 then dxAlert   = "" : err.clear
+                    dxComment = "" : dxComment = prob.Comment       : if err.number <> 0 then dxComment = "" : err.clear
+                    dxID      = "" : dxID      = prob.ID            : if err.number <> 0 then dxID      = "" : err.clear
+
+                    ' Clean date
+                    dim dxDateStr
+                    dxDateStr = "" & dxDate
+                    sp = InStr(dxDateStr, " ")
+                    if sp > 0 then dxDateStr = Left(dxDateStr, sp - 1)
+                    if dxDateStr = "12:00:00" then dxDateStr = ""
+
+                    ' Escape CSV
+                    dxDesc    = Replace(Replace(dxDesc,    """", """"""), ",", " ")
+                    dxComment = Replace(Replace(dxComment, """", """"""), ",", " ")
+
+                    csvData = csvData & baseRow & "," & dxCode & "," & dxDesc & "," & dxDateStr & "," & dxStatus & "," & dxAlert & "," & dxComment & "," & dxID & vbCrLf
+                next
+                found = found + 1
+            end if
+        end if
+    else
+        emptyIds = emptyIds + 1
+    end if
+
+    ' Flush every 5000 patients to avoid memory buildup
+    if (si - startId + 1) Mod 5000 = 0 then
+        if csvData <> "" then
+            dim flushStream
+            set flushStream = MakeStream()
+            dim existingCsv : existingCsv = ""
+            on error resume next
+            flushStream.LoadFromFile(csvFile)
+            if err.number = 0 then existingCsv = flushStream.AsString
+            err.clear
+            set flushStream = MakeStream()
+            flushStream.AsString = existingCsv & csvData
+            flushStream.SaveToFile(csvFile)
+            err.clear
+            on error goto 0
+            csvData = ""
+        end if
+    end if
+next
+on error goto 0
+
+' --- Final flush ---
+if csvData <> "" then
+    dim finalStream
+    set finalStream = MakeStream()
+    dim existCsv : existCsv = ""
+    on error resume next
+    finalStream.LoadFromFile(csvFile)
+    if err.number = 0 then existCsv = finalStream.AsString
+    err.clear
+    set finalStream = MakeStream()
+    finalStream.AsString = existCsv & csvData
+    finalStream.SaveToFile(csvFile)
+    if err.number <> 0 then MsgBox "ERROR saving CSV: " & err.description, 0, "Diagnosis Export"
+    err.clear
+    on error goto 0
+end if
+
+' --- Save progress ---
+dim saveStream
+set saveStream = MakeStream()
+saveStream.AsString = "" & endId
+on error resume next
+saveStream.SaveToFile(progressFile)
+err.clear
+on error goto 0
+
+MsgBox "Chunk complete: IDs " & startId & " to " & endId & vbCrLf & vbCrLf & _
+       "Patients with diagnoses:  " & found    & vbCrLf & _
+       "Patients no diagnoses:    " & noProbs   & vbCrLf & _
+       "Empty IDs skipped:        " & emptyIds  & vbCrLf & vbCrLf & _
+       "Run macro again for next chunk." & vbCrLf & _
+       "Progress: " & endId & " / " & maxId, 0, "Diagnosis Export"
+
+end if
