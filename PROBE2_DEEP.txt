@@ -1,0 +1,325 @@
+' PROBE2_DEEP - Deeper probe based on Probe 1 results
+'
+' Key findings from Probe 1:
+'   .ProblemList = OK (Count=2)
+'   CreatePatientFilter() = OK
+'   Most load functions = "Type mismatch" -> likely need patient obj, not integer ID
+'
+' This probe:
+'   1. Patient properties (fixed - no IIf)
+'   2. ProblemList item properties in detail
+'   3. Load functions with patient object instead of integer ID
+'   4. CreatePatientFilter properties + LoadPatients with filter
+'   5. SQL functions with alternate arg types
+
+dim outFile
+outFile = "P:\Merkur\EMR_Research\probe2-results.txt"
+
+dim phn
+phn = InputBox("Enter a test patient PHN:", "Probe 2 Deep")
+if phn = "" then
+    MsgBox "Cancelled.", 0, "Probe 2"
+else
+
+dim p
+set p = FindPatientByNHI(phn)
+
+if p is nothing then
+    MsgBox "Patient not found: " & phn, 0, "Probe 2"
+else
+
+dim rpt
+rpt = "PROBE2_DEEP - " & Now() & vbCrLf
+rpt = rpt & "PHN: " & phn & vbCrLf
+rpt = rpt & String(70, "=") & vbCrLf & vbCrLf
+
+' ============================================================
+' SECTION 1: Patient properties (fixed - no IIf)
+' ============================================================
+rpt = rpt & "[1] PATIENT PROPERTIES" & vbCrLf
+rpt = rpt & String(50, "-") & vbCrLf
+
+on error resume next
+dim v
+
+v = p.ID             : if err.number = 0 then rpt = rpt & "  .ID              = " & v & vbCrLf else rpt = rpt & "  .ID              = ERR: " & err.description & vbCrLf : err.clear
+v = p.SurName        : if err.number = 0 then rpt = rpt & "  .SurName         = " & v & vbCrLf else rpt = rpt & "  .SurName         = ERR: " & err.description & vbCrLf : err.clear
+v = p.FirstName      : if err.number = 0 then rpt = rpt & "  .FirstName       = " & v & vbCrLf else rpt = rpt & "  .FirstName       = ERR: " & err.description & vbCrLf : err.clear
+v = p.DOB            : if err.number = 0 then rpt = rpt & "  .DOB             = " & v & vbCrLf else rpt = rpt & "  .DOB             = ERR: " & err.description & vbCrLf : err.clear
+v = p.NationalIdentifier : if err.number = 0 then rpt = rpt & "  .NationalIdentifier = " & v & vbCrLf else rpt = rpt & "  .NationalIdentifier = ERR: " & err.description & vbCrLf : err.clear
+v = p.Sex            : if err.number = 0 then rpt = rpt & "  .Sex             = " & v & vbCrLf else rpt = rpt & "  .Sex             = ERR: " & err.description & vbCrLf : err.clear
+v = p.Address1       : if err.number = 0 then rpt = rpt & "  .Address1        = " & v & vbCrLf else rpt = rpt & "  .Address1        = ERR: " & err.description & vbCrLf : err.clear
+v = p.Address2       : if err.number = 0 then rpt = rpt & "  .Address2        = " & v & vbCrLf else rpt = rpt & "  .Address2        = ERR: " & err.description & vbCrLf : err.clear
+v = p.City           : if err.number = 0 then rpt = rpt & "  .City            = " & v & vbCrLf else rpt = rpt & "  .City            = ERR: " & err.description & vbCrLf : err.clear
+v = p.PostCode       : if err.number = 0 then rpt = rpt & "  .PostCode        = " & v & vbCrLf else rpt = rpt & "  .PostCode        = ERR: " & err.description & vbCrLf : err.clear
+v = p.HomePhone      : if err.number = 0 then rpt = rpt & "  .HomePhone       = " & v & vbCrLf else rpt = rpt & "  .HomePhone       = ERR: " & err.description & vbCrLf : err.clear
+v = p.MobilePhone    : if err.number = 0 then rpt = rpt & "  .MobilePhone     = " & v & vbCrLf else rpt = rpt & "  .MobilePhone     = ERR: " & err.description & vbCrLf : err.clear
+v = p.Status         : if err.number = 0 then rpt = rpt & "  .Status          = " & v & vbCrLf else rpt = rpt & "  .Status          = ERR: " & err.description & vbCrLf : err.clear
+v = p.StatusIndex    : if err.number = 0 then rpt = rpt & "  .StatusIndex     = " & v & vbCrLf else rpt = rpt & "  .StatusIndex     = ERR: " & err.description & vbCrLf : err.clear
+v = p.PatientType    : if err.number = 0 then rpt = rpt & "  .PatientType     = " & v & vbCrLf else rpt = rpt & "  .PatientType     = ERR: " & err.description & vbCrLf : err.clear
+v = p.DateFirstSeen  : if err.number = 0 then rpt = rpt & "  .DateFirstSeen   = " & v & vbCrLf else rpt = rpt & "  .DateFirstSeen   = ERR: " & err.description & vbCrLf : err.clear
+v = p.EnrolledDate   : if err.number = 0 then rpt = rpt & "  .EnrolledDate    = " & v & vbCrLf else rpt = rpt & "  .EnrolledDate    = ERR: " & err.description & vbCrLf : err.clear
+v = p.ProviderID     : if err.number = 0 then rpt = rpt & "  .ProviderID      = " & v & vbCrLf else rpt = rpt & "  .ProviderID      = ERR: " & err.description & vbCrLf : err.clear
+v = p.ProviderName   : if err.number = 0 then rpt = rpt & "  .ProviderName    = " & v & vbCrLf else rpt = rpt & "  .ProviderName    = ERR: " & err.description & vbCrLf : err.clear
+v = p.UsualProvider  : if err.number = 0 then rpt = rpt & "  .UsualProvider   = " & v & vbCrLf else rpt = rpt & "  .UsualProvider   = ERR: " & err.description & vbCrLf : err.clear
+
+on error goto 0
+rpt = rpt & vbCrLf
+
+' ============================================================
+' SECTION 2: ProblemList item properties (detailed)
+' ============================================================
+rpt = rpt & "[2] PROBLEMLIST ITEM PROPERTIES" & vbCrLf
+rpt = rpt & String(50, "-") & vbCrLf
+
+on error resume next
+dim probs
+set probs = p.ProblemList
+
+if err.number <> 0 then
+    rpt = rpt & "  .ProblemList ERR: " & err.description & vbCrLf : err.clear
+else
+    rpt = rpt & "  Count = " & probs.Count & vbCrLf & vbCrLf
+    dim i, prob
+    for i = 0 to probs.Count - 1
+        set prob = probs(i)
+        rpt = rpt & "  --- Item " & i & " ---" & vbCrLf
+
+        v = prob.Description     : if err.number = 0 then rpt = rpt & "    .Description     = " & v & vbCrLf else rpt = rpt & "    .Description     = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.DxDescription   : if err.number = 0 then rpt = rpt & "    .DxDescription   = " & v & vbCrLf else rpt = rpt & "    .DxDescription   = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.DxCode          : if err.number = 0 then rpt = rpt & "    .DxCode          = " & v & vbCrLf else rpt = rpt & "    .DxCode          = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.Code            : if err.number = 0 then rpt = rpt & "    .Code            = " & v & vbCrLf else rpt = rpt & "    .Code            = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.IcdCode         : if err.number = 0 then rpt = rpt & "    .IcdCode         = " & v & vbCrLf else rpt = rpt & "    .IcdCode         = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.IcdDescription  : if err.number = 0 then rpt = rpt & "    .IcdDescription  = " & v & vbCrLf else rpt = rpt & "    .IcdDescription  = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.OutputCode      : if err.number = 0 then rpt = rpt & "    .OutputCode      = " & v & vbCrLf else rpt = rpt & "    .OutputCode      = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.Date            : if err.number = 0 then rpt = rpt & "    .Date            = " & v & vbCrLf else rpt = rpt & "    .Date            = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.DateAdded       : if err.number = 0 then rpt = rpt & "    .DateAdded       = " & v & vbCrLf else rpt = rpt & "    .DateAdded       = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.ToDate          : if err.number = 0 then rpt = rpt & "    .ToDate          = " & v & vbCrLf else rpt = rpt & "    .ToDate          = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.Status          : if err.number = 0 then rpt = rpt & "    .Status          = " & v & vbCrLf else rpt = rpt & "    .Status          = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.StatusId        : if err.number = 0 then rpt = rpt & "    .StatusId        = " & v & vbCrLf else rpt = rpt & "    .StatusId        = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.StatusIndex     : if err.number = 0 then rpt = rpt & "    .StatusIndex     = " & v & vbCrLf else rpt = rpt & "    .StatusIndex     = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.TypeId          : if err.number = 0 then rpt = rpt & "    .TypeId          = " & v & vbCrLf else rpt = rpt & "    .TypeId          = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.ConfidenceId    : if err.number = 0 then rpt = rpt & "    .ConfidenceId    = " & v & vbCrLf else rpt = rpt & "    .ConfidenceId    = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.Alert           : if err.number = 0 then rpt = rpt & "    .Alert           = " & v & vbCrLf else rpt = rpt & "    .Alert           = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.Comment         : if err.number = 0 then rpt = rpt & "    .Comment         = " & v & vbCrLf else rpt = rpt & "    .Comment         = ERR: " & err.description & vbCrLf : err.clear
+        v = prob.ID              : if err.number = 0 then rpt = rpt & "    .ID              = " & v & vbCrLf else rpt = rpt & "    .ID              = ERR: " & err.description & vbCrLf : err.clear
+        rpt = rpt & vbCrLf
+    next
+end if
+on error goto 0
+
+' ============================================================
+' SECTION 3: Load functions with PATIENT OBJECT (not integer)
+' ============================================================
+rpt = rpt & "[3] LOAD FUNCTIONS WITH PATIENT OBJECT" & vbCrLf
+rpt = rpt & String(50, "-") & vbCrLf
+
+on error resume next
+dim col, cnt
+
+' LoadPatientProblems(patient object)
+set col = nothing
+set col = LoadPatientProblems(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientProblems(p)      = ERR: " & err.description & vbCrLf : err.clear
+else
+    cnt = 0 : if not (col is nothing) then cnt = col.Count
+    rpt = rpt & "  LoadPatientProblems(p)      = OK (Count=" & cnt & ")" & vbCrLf
+end if
+on error goto 0
+
+' LoadPatientDiagnoses(patient object)
+on error resume next
+set col = nothing
+set col = LoadPatientDiagnoses(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientDiagnoses(p)     = ERR: " & err.description & vbCrLf : err.clear
+else
+    cnt = 0 : if not (col is nothing) then cnt = col.Count
+    rpt = rpt & "  LoadPatientDiagnoses(p)     = OK (Count=" & cnt & ")" & vbCrLf
+end if
+on error goto 0
+
+' LoadPatientTransactions(patient object)
+on error resume next
+set col = nothing
+set col = LoadPatientTransactions(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientTransactions(p)  = ERR: " & err.description & vbCrLf : err.clear
+else
+    cnt = 0 : if not (col is nothing) then cnt = col.Count
+    rpt = rpt & "  LoadPatientTransactions(p)  = OK (Count=" & cnt & ")" & vbCrLf
+    if cnt > 0 then
+        dim txn
+        set txn = col(0)
+        v = txn.Date         : if err.number = 0 then rpt = rpt & "    [0].Date         = " & v & vbCrLf else rpt = rpt & "    [0].Date         = ERR" & vbCrLf : err.clear
+        v = txn.Amount       : if err.number = 0 then rpt = rpt & "    [0].Amount       = " & v & vbCrLf else rpt = rpt & "    [0].Amount       = ERR" & vbCrLf : err.clear
+        v = txn.ServiceCode  : if err.number = 0 then rpt = rpt & "    [0].ServiceCode  = " & v & vbCrLf else rpt = rpt & "    [0].ServiceCode  = ERR" & vbCrLf : err.clear
+        v = txn.BillingCode  : if err.number = 0 then rpt = rpt & "    [0].BillingCode  = " & v & vbCrLf else rpt = rpt & "    [0].BillingCode  = ERR" & vbCrLf : err.clear
+        v = txn.Type         : if err.number = 0 then rpt = rpt & "    [0].Type         = " & v & vbCrLf else rpt = rpt & "    [0].Type         = ERR" & vbCrLf : err.clear
+    end if
+end if
+on error goto 0
+
+' LoadPatientContacts(patient object)
+on error resume next
+set col = nothing
+set col = LoadPatientContacts(p)
+if err.number <> 0 then
+    rpt = rpt & "  LoadPatientContacts(p)      = ERR: " & err.description & vbCrLf : err.clear
+else
+    cnt = 0 : if not (col is nothing) then cnt = col.Count
+    rpt = rpt & "  LoadPatientContacts(p)      = OK (Count=" & cnt & ")" & vbCrLf
+end if
+on error goto 0
+
+rpt = rpt & vbCrLf
+
+' ============================================================
+' SECTION 4: CreatePatientFilter + LoadPatients
+' ============================================================
+rpt = rpt & "[4] CREATEPATIENTFILTER PROPERTIES + LOADPATIENTS" & vbCrLf
+rpt = rpt & String(50, "-") & vbCrLf
+
+on error resume next
+dim filt
+set filt = CreatePatientFilter()
+if err.number <> 0 then
+    rpt = rpt & "  CreatePatientFilter()  ERR: " & err.description & vbCrLf : err.clear
+else
+    rpt = rpt & "  CreatePatientFilter()  OK" & vbCrLf & vbCrLf
+
+    ' Probe all likely filter properties
+    v = filt.AgeFrom       : if err.number = 0 then rpt = rpt & "    .AgeFrom       = readable" & vbCrLf else rpt = rpt & "    .AgeFrom       = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.AgeTo         : if err.number = 0 then rpt = rpt & "    .AgeTo         = readable" & vbCrLf else rpt = rpt & "    .AgeTo         = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.Gender        : if err.number = 0 then rpt = rpt & "    .Gender        = readable" & vbCrLf else rpt = rpt & "    .Gender        = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.Sex           : if err.number = 0 then rpt = rpt & "    .Sex           = readable" & vbCrLf else rpt = rpt & "    .Sex           = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.DxCode        : if err.number = 0 then rpt = rpt & "    .DxCode        = readable" & vbCrLf else rpt = rpt & "    .DxCode        = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.DxDescription : if err.number = 0 then rpt = rpt & "    .DxDescription = readable" & vbCrLf else rpt = rpt & "    .DxDescription = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.DiagnosisCode : if err.number = 0 then rpt = rpt & "    .DiagnosisCode = readable" & vbCrLf else rpt = rpt & "    .DiagnosisCode = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.DOBFrom       : if err.number = 0 then rpt = rpt & "    .DOBFrom       = readable" & vbCrLf else rpt = rpt & "    .DOBFrom       = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.DOBTo         : if err.number = 0 then rpt = rpt & "    .DOBTo         = readable" & vbCrLf else rpt = rpt & "    .DOBTo         = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.BirthDateFrom : if err.number = 0 then rpt = rpt & "    .BirthDateFrom = readable" & vbCrLf else rpt = rpt & "    .BirthDateFrom = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.BirthDateTo   : if err.number = 0 then rpt = rpt & "    .BirthDateTo   = readable" & vbCrLf else rpt = rpt & "    .BirthDateTo   = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.Status        : if err.number = 0 then rpt = rpt & "    .Status        = readable" & vbCrLf else rpt = rpt & "    .Status        = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.StatusIndex   : if err.number = 0 then rpt = rpt & "    .StatusIndex   = readable" & vbCrLf else rpt = rpt & "    .StatusIndex   = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.PatientType   : if err.number = 0 then rpt = rpt & "    .PatientType   = readable" & vbCrLf else rpt = rpt & "    .PatientType   = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.SurName       : if err.number = 0 then rpt = rpt & "    .SurName       = readable" & vbCrLf else rpt = rpt & "    .SurName       = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.FirstName     : if err.number = 0 then rpt = rpt & "    .FirstName     = readable" & vbCrLf else rpt = rpt & "    .FirstName     = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.NHI           : if err.number = 0 then rpt = rpt & "    .NHI           = readable" & vbCrLf else rpt = rpt & "    .NHI           = ERR: " & err.description & vbCrLf : err.clear
+    v = filt.ProviderID    : if err.number = 0 then rpt = rpt & "    .ProviderID    = readable" & vbCrLf else rpt = rpt & "    .ProviderID    = ERR: " & err.description & vbCrLf : err.clear
+    rpt = rpt & vbCrLf
+
+    ' Try LoadPatients with the filter
+    set col = nothing
+    set col = LoadPatients(filt)
+    if err.number <> 0 then
+        rpt = rpt & "  LoadPatients(filt)     = ERR: " & err.description & vbCrLf : err.clear
+    else
+        cnt = 0 : if not (col is nothing) then cnt = col.Count
+        rpt = rpt & "  LoadPatients(filt)     = OK (Count=" & cnt & ")" & vbCrLf
+    end if
+
+    ' Try setting a DOB filter and running LoadPatients
+    dim dob
+    dob = p.DOB
+    err.clear
+    on error resume next
+    filt.DOBFrom = dob
+    filt.DOBTo   = dob
+    if err.number <> 0 then
+        rpt = rpt & "  filt.DOBFrom/To assign = ERR: " & err.description & vbCrLf : err.clear
+    else
+        set col = nothing
+        set col = LoadPatients(filt)
+        if err.number <> 0 then
+            rpt = rpt & "  LoadPatients(dob filt) = ERR: " & err.description & vbCrLf : err.clear
+        else
+            cnt = 0 : if not (col is nothing) then cnt = col.Count
+            rpt = rpt & "  LoadPatients(dob filt) = OK (Count=" & cnt & ")" & vbCrLf
+        end if
+    end if
+end if
+on error goto 0
+
+rpt = rpt & vbCrLf
+
+' ============================================================
+' SECTION 5: SQL / Stream variants
+' ============================================================
+rpt = rpt & "[5] SQL FUNCTION VARIANTS" & vbCrLf
+rpt = rpt & String(50, "-") & vbCrLf
+
+on error resume next
+dim sqlStr, stm, sqlRes
+
+' Try ExecuteSql with a stream containing SQL
+sqlStr = "SELECT PTNT_ID, PTNT_SURNAME, PTNT_FIRSTNAME FROM PATIENT WHERE ROWNUM <= 1"
+set stm = MakeStream()
+stm.AsString = sqlStr
+set sqlRes = nothing
+set sqlRes = ExecuteSql(stm)
+if err.number <> 0 then
+    rpt = rpt & "  ExecuteSql(stream)          = ERR: " & err.description & vbCrLf : err.clear
+else
+    rpt = rpt & "  ExecuteSql(stream)          = OK" & vbCrLf
+end if
+on error goto 0
+
+' Try RunSQL with stream
+on error resume next
+set stm = MakeStream()
+stm.AsString = sqlStr
+set sqlRes = nothing
+set sqlRes = RunSQL(stm)
+if err.number <> 0 then
+    rpt = rpt & "  RunSQL(stream)              = ERR: " & err.description & vbCrLf : err.clear
+else
+    rpt = rpt & "  RunSQL(stream)              = OK" & vbCrLf
+end if
+on error goto 0
+
+' Try RunSqlStatement with integer ID 1
+on error resume next
+set sqlRes = nothing
+set sqlRes = RunSqlStatement(1)
+if err.number <> 0 then
+    rpt = rpt & "  RunSqlStatement(1)          = ERR: " & err.description & vbCrLf : err.clear
+else
+    rpt = rpt & "  RunSqlStatement(1)          = OK" & vbCrLf
+end if
+on error goto 0
+
+' Try LoadSqlStatement with integer ID 1
+on error resume next
+set sqlRes = nothing
+set sqlRes = LoadSqlStatement(1)
+if err.number <> 0 then
+    rpt = rpt & "  LoadSqlStatement(1)         = ERR: " & err.description & vbCrLf : err.clear
+else
+    rpt = rpt & "  LoadSqlStatement(1)         = OK" & vbCrLf
+    v = sqlRes.Statement : if err.number = 0 then rpt = rpt & "    .Statement = " & Left(v,80) & vbCrLf else err.clear
+    v = sqlRes.Name      : if err.number = 0 then rpt = rpt & "    .Name      = " & v & vbCrLf else err.clear
+    v = sqlRes.Code      : if err.number = 0 then rpt = rpt & "    .Code      = " & v & vbCrLf else err.clear
+end if
+on error goto 0
+
+rpt = rpt & vbCrLf
+rpt = rpt & String(70, "=") & vbCrLf
+rpt = rpt & "END OF PROBE 2 - " & Now() & vbCrLf
+
+' Save
+dim s
+set s = MakeStream()
+s.AsString = rpt
+on error resume next
+s.SaveToFile(outFile)
+if err.number <> 0 then
+    MsgBox "ERROR saving: " & err.description, 0, "Probe 2"
+else
+    MsgBox "Probe 2 complete. Results: " & outFile, 0, "Probe 2"
+    WinExec "cmd /c notepad """ & outFile & """", 1
+end if
+
+end if
+end if
