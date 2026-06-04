@@ -17,9 +17,7 @@ namespace EMR_Search
         private string              _csvPath = DefaultCsvPath();
 
         private static string DefaultCsvPath() =>
-            Path.Combine(
-                Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!,
-                "..", "data", "diagnosis-export.csv");
+            Path.Combine(AppContext.BaseDirectory, "..", "data", "diagnosis-export.csv");
 
         public MainWindow()
         {
